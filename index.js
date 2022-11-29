@@ -14,18 +14,14 @@ function App(){
             }
         
     ]);
-    //code to add new todo item
-    const [value, setValue] = React.useState('');
-    const handleSubmit = e => {
-        e.preventDefault();
-        if (!value) return;
-        const newTodos = [...todos, {text:value, isCompleted:false}];
+    
+    const addTodo = text => {
+        const newTodos = [...todos, {text:text, isCompleted:false}];
         setTodos(newTodos);
-        setValue('');
-    }
+      }
+
     //remove item from todo list
-    const removeTodo = e => {
-        const index = Number(e.target.id);
+    const removeTodo = index => {
         let temp = [...todos];
         temp.splice(index,1); //remove the item from the index
         setTodos(temp);
@@ -34,15 +30,9 @@ function App(){
     //update the state + remove item from todo
     return(<>
         {todos.map((todo,i) => 
-        <div className="todo" key={i} id={i} onClick={removeTodo}>{todo.text}</div>)}
-        <form onSubmit={handleSubmit}>
-            <input type="text"
-            className="input"
-            value={value}
-            placeholder="Add Todo ..."
-            onChange={e => setValue(e.target.value)}
-            />
-        </form>
+            <Todo index={i} key={i} todo={todo} remove={removeTodo}/>
+        )}
+        <TodoForm addTodo={addTodo} />
     </>);
 }
 
